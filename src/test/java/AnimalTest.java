@@ -71,7 +71,7 @@ public class AnimalTest {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
     testAnimal.updateName("Buck");
-    assertEquals("Buck", testAnimal.getName());
+    assertEquals("Buck", Animal.find(testAnimal.getId()).getName());
   }
 
   @Test

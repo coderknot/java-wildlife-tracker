@@ -1,5 +1,4 @@
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EndangeredAnimal {
@@ -41,7 +40,7 @@ public class EndangeredAnimal {
 
   public static EndangeredAnimal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM endangered_animals WHERE id=:id;";
+      String sql = "SELECT * FROM endangered_animals WHERE id = :id;";
       EndangeredAnimal endangeredanimal = con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(EndangeredAnimal.class);
@@ -51,7 +50,7 @@ public class EndangeredAnimal {
 
   public List<Sighting> getSightings() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
+      String sql = "SELECT * FROM sightings WHERE animal_id = :id;";
         List<Sighting> sightings = con.createQuery(sql)
           .addParameter("id", this.getId())
           .executeAndFetch(Sighting.class);
@@ -81,9 +80,19 @@ public class EndangeredAnimal {
     }
   }
 
+  public void updateName(String name) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE endangered_animals SET name = :name WHERE id = :id;";
+      con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .addParameter("name", name)
+        .executeUpdate();
+    }
+  }
+
   public void updateHealth(String health) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE endangered_animals SET health=:health WHERE id=:id;";
+      String sql = "UPDATE endangered_animals SET health = :health WHERE id = :id;";
       con.createQuery(sql)
         .addParameter("id", this.getId())
         .addParameter("health", health)
@@ -93,10 +102,19 @@ public class EndangeredAnimal {
 
   public void updateAge(String age) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE endangered_animals SET age=:age WHERE id=:id;";
+      String sql = "UPDATE endangered_animals SET age = :age WHERE id = :id;";
       con.createQuery(sql)
         .addParameter("id", this.getId())
         .addParameter("age", age)
+        .executeUpdate();
+    }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM endangered_animals WHERE id = :id;";
+      con.createQuery(sql)
+        .addParameter("id", this.getId())
         .executeUpdate();
     }
   }

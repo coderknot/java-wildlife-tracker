@@ -80,6 +80,14 @@ public class EndangeredAnimalTest {
   }
 
   @Test
+  public void updateName_updatesNameInDatabase_String() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    testEndangeredAnimal.save();
+    testEndangeredAnimal.updateName("Red Fox");
+    assertEquals("Red Fox", EndangeredAnimal.find(testEndangeredAnimal.getId()).getName());
+  }
+
+  @Test
   public void update_updatesHealthInDatabase_true() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     testEndangeredAnimal.save();
@@ -93,6 +101,14 @@ public class EndangeredAnimalTest {
     testEndangeredAnimal.save();
     testEndangeredAnimal.updateAge("Adult");
     assertEquals("Adult", EndangeredAnimal.find(testEndangeredAnimal.getId()).getAge());
+  }
+
+  @Test
+  public void delete_deletesEndangeredAnimalFromDatabase_0() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    testEndangeredAnimal.save();
+    testEndangeredAnimal.delete();
+    assertEquals(0, EndangeredAnimal.all().size());
   }
 
 }
