@@ -1,42 +1,47 @@
 import org.sql2o.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.Timestamp;
 
 public class Sighting {
 
   private int id;
-  private int animal_id;
+  private int animalId;
   private String location;
-  private String ranger_name;
+  private String rangerName;
+  private Timestamp timestamp;
 
-  public Sighting(int animal_id, String location, String ranger_name) {
-    this.animal_id = animal_id;
+  public Sighting(int animalId, String location, String rangerName) {
+    this.animalId = animalId;
     this.location = location;
-    this.ranger_name = ranger_name;
+    this.rangerName = rangerName;
   }
 
   public int getId() {
-    return id;
+    return this.id;
   }
 
   public int getAnimalId() {
-    return animal_id;
+    return this.animalId;
   }
 
   public String getLocation() {
-    return location;
+    return this.location;
   }
 
   public String getRangerName() {
-    return ranger_name;
+    return this.rangerName;
+  }
+
+  public Timestamp getTimestamp() {
+    return this.timestamp;
   }
 
   public static List<Sighting> all() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings;";
       return con.createQuery(sql)
-        .throwOnMappingFailure(false)
+        .addColumnMapping("animal_id", "animalId")
+        .addColumnMapping("ranger_name", "rangerName")
         .executeAndFetch(Sighting.class);
     }
   }
@@ -45,6 +50,8 @@ public class Sighting {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE id=:id;";
       Sighting sighting = con.createQuery(sql)
+        .addColumnMapping("animal_id", "animalId")
+        .addColumnMapping("ranger_name", "rangerName")
         .addParameter("id", id)
         .executeAndFetchFirst(Sighting.class);
       return sighting;
@@ -65,14 +72,25 @@ public class Sighting {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (animal_id, location, ranger_name) VALUES (:animal_id, :location, :ranger_name);";
+      String sql = "INSERT INTO sightings (animal_id, location, ranger_name, timestamp) VALUES (:animalId, :location, :rangerName, now());";
+
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("animal_id", this.animal_id)
-        .addParameter("location", this.location)
-        .addParameter("ranger_name", this.ranger_name)
-        .throwOnMappingFailure(false)
+        .addColumnMapping("animal_id", "animalId")
+        .addColumnMapping("ranger_name", "rangerName")
+        .addParameter("animalId", this.getAnimalId())
+        .addParameter("location", this.getLocation())
+        .addParameter("rangerName", this.getRangerName())
         .executeUpdate()
         .getKey();
+    }
+
+    try(Connection con = DB.sql2o.open()) {
+      String timeStampQuery = "SELECT timestamp FROM sightings WHERE id = :id;";
+      this.timestamp = con.createQuery(timeStampQuery)
+        .addColumnMapping("animal_id", "animalId")
+        .addColumnMapping("ranger_name", "rangerName")
+        .addParameter("id", id)
+        .executeAndFetchFirst(Timestamp.class);
     }
   }
 

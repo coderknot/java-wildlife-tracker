@@ -57,6 +57,15 @@ public class SightingTest {
   }
 
   @Test
+  public void getTimestamp_sightingInstantiatesWithTimestamp_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertTrue(testSighting.getTimestamp() != null);
+  }
+
+  @Test
   public void all_returnsAllInstancesOfSighting_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
