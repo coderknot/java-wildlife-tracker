@@ -115,4 +115,15 @@ public class SightingTest {
     assertEquals(true, Sighting.all().get(0).equals(testSighting));
   }
 
+  @Test
+  public void delete_deletesSightingFromDatabase_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    int testSightingId = testSighting.getId();
+    testSighting.delete();
+    assertEquals(null, Sighting.find(testSightingId));
+  }
+
 }

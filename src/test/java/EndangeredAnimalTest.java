@@ -111,7 +111,7 @@ public class EndangeredAnimalTest {
   }
 
   @Test
-  public void delete_deletesEndangeredAnimalFromDatabase_0() {
+  public void delete_deletesEndangeredAnimalFromDatabase_true() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     testEndangeredAnimal.save();
     int testEndangeredAnimalId = testEndangeredAnimal.getId();

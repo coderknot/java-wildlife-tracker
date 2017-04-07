@@ -83,7 +83,7 @@ public class AnimalTest {
   }
 
   @Test
-  public void delete_deletesAnimalFromDatabase_0() {
+  public void delete_deletesAnimalFromDatabase_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
     int testAnimalID = testAnimal.getId();

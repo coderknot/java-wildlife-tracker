@@ -2,7 +2,7 @@ import org.sql2o.*;
 import java.util.List;
 import java.sql.Timestamp;
 
-public class Sighting {
+public class Sighting implements DatabaseManagement {
 
   private int id;
   private int animalId;
@@ -91,6 +91,15 @@ public class Sighting {
         .addColumnMapping("ranger_name", "rangerName")
         .addParameter("id", id)
         .executeAndFetchFirst(Timestamp.class);
+    }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM sightings WHERE id = :id;";
+      con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .executeUpdate();
     }
   }
 
