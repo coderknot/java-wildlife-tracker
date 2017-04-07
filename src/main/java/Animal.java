@@ -6,6 +6,8 @@ public class Animal {
   public int id;
   public String name;
 
+  public static final String DATABASE_TYPE = "non-endangered";
+
   public Animal(String name) {
     this.name = name;
   }
@@ -19,18 +21,25 @@ public class Animal {
   }
 
   public static List<Animal> all() {
+
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals;";
+      String sql = "SELECT * FROM animals WHERE type = :DATABASE_TYPE;";
       return con.createQuery(sql)
+        .addColumnMapping("type", "DATABASE_TYPE")
+        .addParameter("DATABASE_TYPE", DATABASE_TYPE)
+        .throwOnMappingFailure(false)
         .executeAndFetch(Animal.class);
     }
   }
 
   public static Animal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE id =  :id;";
+      String sql = "SELECT * FROM animals WHERE id = :id and type = :DATABASE_TYPE;";
       Animal animal = con.createQuery(sql)
+        .addColumnMapping("type", "DATABASE_TYPE")
         .addParameter("id", id)
+        .addParameter("DATABASE_TYPE", DATABASE_TYPE)
+        .throwOnMappingFailure(false)
         .executeAndFetchFirst(Animal.class);
       return animal;
     }
@@ -40,6 +49,8 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE animal_id = :id;";
         List<Sighting> sightings = con.createQuery(sql)
+          .addColumnMapping("animal_id", "id")
+          .addColumnMapping("ranger_name", "rangerName")
           .addParameter("id", this.getId())
           .executeAndFetch(Sighting.class);
       return sightings;
@@ -58,9 +69,11 @@ public class Animal {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name) VALUES (:name);";
+      String sql = "INSERT INTO animals (name, type) VALUES (:name, :type);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.getName())
+        .addParameter("type", this.DATABASE_TYPE)
+        .throwOnMappingFailure(false)
         .executeUpdate()
         .getKey();
     }
@@ -68,10 +81,11 @@ public class Animal {
 
   public void updateName(String name) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE animals SET name =: name WHERE id =: id;";
+      String sql = "UPDATE animals SET name = :name WHERE id = :id;";
       con.createQuery(sql)
-        .addParameter("id", this.getId())
+        .addParameter("id", id)
         .addParameter("name", name)
+        .throwOnMappingFailure(false)
         .executeUpdate();
     }
   }

@@ -1,9 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 public class AnimalTest {
 
@@ -54,6 +52,16 @@ public class AnimalTest {
   }
 
   @Test
+  public void getSightings_returnsSightingsForAnimal() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+
+    assertEquals(1, testAnimal.getSightings().size());
+  }
+
+  @Test
   public void equals_returnsTrueIfAnimalsAreSame_true() {
     Animal firstAnimal = new Animal("Deer");
     Animal anotherAnimal = new Animal("Deer");
@@ -64,7 +72,7 @@ public class AnimalTest {
   public void save_savesObjectToDatabase_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
-    assertEquals(true, Animal.all().get(0).equals(testAnimal));
+    assertEquals(testAnimal.getId(), Animal.find(testAnimal.getId()).getId());
   }
 
   public void updateName_updatesNameInDatabase_String() {
@@ -78,8 +86,9 @@ public class AnimalTest {
   public void delete_deletesAnimalFromDatabase_0() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
+    int testAnimalID = testAnimal.getId();
     testAnimal.delete();
-    assertEquals(0, Animal.all().size());
+    assertEquals(null, Animal.find(testAnimalID));
   }
 
 }
