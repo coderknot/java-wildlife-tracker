@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 
 public class AnimalTest {
+  
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -19,21 +20,6 @@ public class AnimalTest {
   public void getName_animalInstantiatesWithName_Deer() {
     Animal testAnimal = new Animal("Deer");
     assertEquals("Deer", testAnimal.getName());
-  }
-
-  @Test
-  public void equals_returnsTrueIfNameIsTheSame_false() {
-    Animal firstAnimal = new Animal("Deer");
-    Animal anotherAnimal = new Animal("Deer");
-    assertTrue(firstAnimal.equals(anotherAnimal));
-  }
-
-  @Test
-  public void save_assignsIdToObjectAndSavesObjectToDatabase() {
-    Animal testAnimal = new Animal("Deer");
-    testAnimal.save();
-    Animal savedAnimal = Animal.all().get(0);
-    assertEquals(testAnimal.getId(), savedAnimal.getId());
   }
 
   @Test
@@ -56,11 +42,23 @@ public class AnimalTest {
   }
 
   @Test
-  public void delete_deletesAnimalFromDatabase_0() {
+  public void find_returnsNullWhenNoAnimalFound_null() {
+    assertTrue(Animal.find(999) == null);
+  }
+
+  @Test
+  public void equals_returnsTrueIfNameIsTheSame_false() {
+    Animal firstAnimal = new Animal("Deer");
+    Animal anotherAnimal = new Animal("Deer");
+    assertTrue(firstAnimal.equals(anotherAnimal));
+  }
+
+  @Test
+  public void save_assignsIdToObjectAndSavesObjectToDatabase() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
-    testAnimal.delete();
-    assertEquals(0, Animal.all().size());
+    Animal savedAnimal = Animal.all().get(0);
+    assertEquals(testAnimal.getId(), savedAnimal.getId());
   }
 
   public void updateName_updatesAnimalNameInDatabase_String() {
@@ -71,8 +69,11 @@ public class AnimalTest {
   }
 
   @Test
-  public void find_returnsNullWhenNoAnimalFound_null() {
-    assertTrue(Animal.find(999) == null);
+  public void delete_deletesAnimalFromDatabase_0() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    testAnimal.delete();
+    assertEquals(0, Animal.all().size());
   }
 
 }

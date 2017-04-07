@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 
 public class EndangeredAnimalTest {
+
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -19,14 +20,6 @@ public class EndangeredAnimalTest {
   public void getHealth_returnsHealthAttribute_true() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     assertEquals("Healthy", testEndangeredAnimal.getHealth());
-  }
-
-  @Test
-  public void save_assignsIdAndSavesObjectToDatabase() {
-    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
-    testEndangeredAnimal.save();
-    EndangeredAnimal savedEndangeredAnimal = EndangeredAnimal.all().get(0);
-    assertEquals(testEndangeredAnimal.getId(), savedEndangeredAnimal.getId());
   }
 
   @Test
@@ -46,6 +39,14 @@ public class EndangeredAnimalTest {
     EndangeredAnimal secondEndangeredAnimal = new EndangeredAnimal("Badger", "Okay", "Adult");
     secondEndangeredAnimal.save();
     assertEquals(EndangeredAnimal.find(secondEndangeredAnimal.getId()), secondEndangeredAnimal);
+  }
+
+  @Test
+  public void save_assignsIdAndSavesObjectToDatabase() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    testEndangeredAnimal.save();
+    EndangeredAnimal savedEndangeredAnimal = EndangeredAnimal.all().get(0);
+    assertEquals(testEndangeredAnimal.getId(), savedEndangeredAnimal.getId());
   }
 
   @Test
