@@ -12,7 +12,7 @@ public class Animal {
   }
 
   public int getId() {
-    return id;
+    return this.id;
   }
 
   public String getName() {

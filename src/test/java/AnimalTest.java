@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 
 public class AnimalTest {
-  
+
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -14,6 +14,13 @@ public class AnimalTest {
   public void animal_instantiatesCorrectly_false() {
     Animal testAnimal = new Animal("Deer");
     assertEquals(true, testAnimal instanceof Animal);
+  }
+
+  @Test
+  public void getId_aniamlInstantiatesWithID_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    assertTrue(testAnimal.getId() > 0);
   }
 
   @Test
