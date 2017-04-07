@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Sighting {
+
+  private int id;
   private int animal_id;
   private String location;
   private String ranger_name;
-  private int id;
 
   public Sighting(int animal_id, String location, String ranger_name) {
     this.animal_id = animal_id;
     this.location = location;
     this.ranger_name = ranger_name;
-    this.id = id;
   }
 
   public int getId() {
@@ -30,6 +30,27 @@ public class Sighting {
 
   public String getRangerName() {
     return ranger_name;
+  }
+
+  public static List<Sighting> all() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM sightings;";
+      return con.createQuery(sql)
+        .throwOnMappingFailure(false)
+        .executeAndFetch(Sighting.class);
+    }
+  }
+
+  public static Sighting find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM sightings WHERE id=:id;";
+      Sighting sighting = con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Sighting.class);
+      return sighting;
+    } catch (IndexOutOfBoundsException exception) {
+      return null;
+    }
   }
 
   @Override
@@ -52,27 +73,6 @@ public class Sighting {
         .throwOnMappingFailure(false)
         .executeUpdate()
         .getKey();
-    }
-  }
-
-  public static List<Sighting> all() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings;";
-      return con.createQuery(sql)
-        .throwOnMappingFailure(false)
-        .executeAndFetch(Sighting.class);
-    }
-  }
-
-  public static Sighting find(int id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE id=:id;";
-      Sighting sighting = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(Sighting.class);
-      return sighting;
-    } catch (IndexOutOfBoundsException exception) {
-      return null;
     }
   }
 
