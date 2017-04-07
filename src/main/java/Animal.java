@@ -1,5 +1,4 @@
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Animal {
@@ -16,7 +15,7 @@ public class Animal {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public static List<Animal> all() {
@@ -41,7 +40,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
         List<Sighting> sightings = con.createQuery(sql)
-          .addParameter("id", id)
+          .addParameter("id", this.getId())
           .executeAndFetch(Sighting.class);
       return sightings;
     }
@@ -61,7 +60,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO animals (name) VALUES (:name);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
+        .addParameter("name", this.getName())
         .executeUpdate()
         .getKey();
     }
@@ -71,7 +70,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE animals SET name=:name WHERE id=:id;";
       con.createQuery(sql)
-        .addParameter("id", id)
+        .addParameter("id", this.getId())
         .addParameter("name", name)
         .executeUpdate();
     }
@@ -81,7 +80,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM animals WHERE id=:id;";
       con.createQuery(sql)
-        .addParameter("id", id)
+        .addParameter("id", this.getId())
         .executeUpdate();
     }
   }

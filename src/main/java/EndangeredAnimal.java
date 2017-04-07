@@ -16,19 +16,19 @@ public class EndangeredAnimal {
   }
 
   public int getId() {
-    return id;
+    return this.id;
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public String getHealth() {
-    return health;
+    return this.health;
   }
 
   public String getAge() {
-    return age;
+    return this.age;
   }
 
   public static List<EndangeredAnimal> all() {
@@ -53,7 +53,7 @@ public class EndangeredAnimal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
         List<Sighting> sightings = con.createQuery(sql)
-          .addParameter("id", id)
+          .addParameter("id", this.getId())
           .executeAndFetch(Sighting.class);
       return sightings;
     }
@@ -73,9 +73,9 @@ public class EndangeredAnimal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO endangered_animals (name, health, age) VALUES (:name, :health, :age);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .addParameter("health", this.health)
-        .addParameter("age", this.age)
+        .addParameter("name", this.getName())
+        .addParameter("health", this.getHealth())
+        .addParameter("age", this.getAge())
         .executeUpdate()
         .getKey();
     }
@@ -85,7 +85,7 @@ public class EndangeredAnimal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE endangered_animals SET health=:health WHERE id=:id;";
       con.createQuery(sql)
-        .addParameter("id", id)
+        .addParameter("id", this.getId())
         .addParameter("health", health)
         .executeUpdate();
     }
@@ -95,8 +95,8 @@ public class EndangeredAnimal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE endangered_animals SET age=:age WHERE id=:id;";
       con.createQuery(sql)
+        .addParameter("id", this.getId())
         .addParameter("age", age)
-        .addParameter("id", id)
         .executeUpdate();
     }
   }
