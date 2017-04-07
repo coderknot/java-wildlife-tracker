@@ -6,7 +6,6 @@ public class EndangeredAnimal {
 
   public int id;
   public String name;
-  public boolean endangered;
   private String health;
   private String age;
 
