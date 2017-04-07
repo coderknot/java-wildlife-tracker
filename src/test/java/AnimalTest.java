@@ -11,26 +11,26 @@ public class AnimalTest {
   public DatabaseRule database = new DatabaseRule();
 
   @Test
-  public void animal_instantiatesCorrectly_false() {
+  public void animal_instantiatesCorrectly_true() {
     Animal testAnimal = new Animal("Deer");
     assertEquals(true, testAnimal instanceof Animal);
   }
 
   @Test
-  public void getId_aniamlInstantiatesWithID_true() {
+  public void getId_animalInstantiatesWithID_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
     assertTrue(testAnimal.getId() > 0);
   }
 
   @Test
-  public void getName_animalInstantiatesWithName_Deer() {
+  public void getName_animalInstantiatesWithName_true() {
     Animal testAnimal = new Animal("Deer");
     assertEquals("Deer", testAnimal.getName());
   }
 
   @Test
-  public void all_returnsAllInstancesOfAnimal_false() {
+  public void all_returnsAllInstancesOfAnimal_true() {
     Animal firstAnimal = new Animal("Deer");
     firstAnimal.save();
     Animal secondAnimal = new Animal("Black Bear");
@@ -54,21 +54,20 @@ public class AnimalTest {
   }
 
   @Test
-  public void equals_returnsTrueIfNameIsTheSame_false() {
+  public void equals_returnsTrueIfAnimalsAreSame_true() {
     Animal firstAnimal = new Animal("Deer");
     Animal anotherAnimal = new Animal("Deer");
     assertTrue(firstAnimal.equals(anotherAnimal));
   }
 
   @Test
-  public void save_assignsIdToObjectAndSavesObjectToDatabase() {
+  public void save_savesObjectToDatabase_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
-    Animal savedAnimal = Animal.all().get(0);
-    assertEquals(testAnimal.getId(), savedAnimal.getId());
+    assertEquals(true, Animal.all().get(0).equals(testAnimal));
   }
 
-  public void updateName_updatesAnimalNameInDatabase_String() {
+  public void updateName_updatesNameInDatabase_String() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
     testAnimal.updateName("Buck");

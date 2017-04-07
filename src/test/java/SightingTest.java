@@ -21,6 +21,42 @@ public class SightingTest {
   }
 
   @Test
+  public void getId_sightingInstantiatesWithId_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertTrue(testSighting.getId() > 0);
+  }
+
+  @Test
+  public void getAnimalId_sightingInstantiatesWithAnimalId_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertEquals(testAnimal.getId(), testSighting.getAnimalId());
+  }
+
+  @Test
+  public void getLocation_sightingInstantiatesWithLocation_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertEquals("45.472428, -121.946466", testSighting.getLocation());
+  }
+
+  @Test
+  public void getRangerName_sightingInstantiatesWithRangerName_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertEquals("Ranger Avery", testSighting.getRangerName());
+  }
+
+  @Test
   public void all_returnsAllInstancesOfSighting_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
@@ -48,12 +84,12 @@ public class SightingTest {
   }
 
   @Test
-  public void find_returnsNullWhenNoAnimalFound_null() {
-    assertTrue(Animal.find(999) == null);
+  public void find_returnsNullWhenNoSightingFound_null() {
+    assertTrue(Sighting.find(999) == null);
   }
 
   @Test
-  public void equals_returnsTrueIfLocationAndDescriptionAreSame_true() {
+  public void equals_returnsTrueIfSightingsAreSame_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
     Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
