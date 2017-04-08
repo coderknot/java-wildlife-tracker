@@ -1,70 +1,40 @@
-<h1>Report a Wildlife Sighting</h1>
+<!-- index.vtl -->
 
-<h3><a href="/animal/new">Add Animal to System</a></h3>
-<hr>
+<div class="index-header">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Wildlife-Tracker</a>
+      </div>
 
-<h3> Report Non-Endangered Animal Sighting </h3>
-<form action="/sighting" method="post">
-  #if($animals.size() >= 0)
-    <label>Select Animal</label>
-    <select name="animalSelected">
-      #foreach($animal in $animals)
-        <option value="$animal.getId()">$animal.getName()</option>
-      #end
-    </select>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/sightings">Sightings<span class="sr-only">(current)</span></a></li>
+          <li><a href="/animals">Animals</a></li>
+        </ul>
 
-    <label>Location</label>
-    <input type="text" name="latLong">
-    <label>Your Name</label>
-    <input type="text" name="rangerName">
-    <button type="submit">Submit Report</button>
-  #end
-</form>
+        <form id="add-animal-form" class="navbar-form navbar-right">
+          <div class="form-group">
+            <input id="add-animal-name" name="add-animal-name" type="text" class="form-control" placeholder="Animal Name">
+            <select id="add-animal-type" name="add-animal-type" type="text">
+              #foreach($animalType in $animalTypes)
+                <option value="$foreach.count">$animalType</option>
+              #end
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Add Animal</button>
+        </form>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</div>
 
-<hr>
-
-<h3> Report Endangered Animal Sighting </h3>
-<form action="/endangered_sighting" method="post">
-  #if($endangeredAnimals.size() >= 0)
-    <label>Select Endangered Animal</label>
-    <select name="endangeredAnimalSelected">
-      #foreach($endangered_animal in $endangeredAnimals)
-        <option value="$endangered_animal.getId()">$endangered_animal.getName()</option>
-      #end
-    </select>
-
-    <label>Location</label>
-    <input type="text" name="latLong">
-    <label>Your Name</label>
-    <input type="text" name="rangerName">
-    <button type="submit">Submit Report</button>
-  #end
-</form>
-
-
-<h3>Endangered Animal Sightings</h3>
-
-#if ($endangeredAnimals.size() == 0)
-  <a href="/animal/new">Add Animal to Database to Report a Sighting</a>
-#else
-  #foreach ($endangeredAnimal in $endangeredAnimals)
-    <a href="/endangered_animal/$endangeredAnimal.getId()" class="thumbnail">
-      <h4>$endangeredAnimal.getName()</h4>
-      <h4>$endangeredAnimal.getSightings().size() Reported Sighting(s)</h4>
-      <p>Click for details</p>
-    </a>
-  #end
-#end
-
-<h3>All Animals & Sightings</h3>
-#if ($animals.size() == 0)
-  <a href="/animal/new">Add Animal to Database to Report a Sighting</a>
-#else
-  #foreach ($animal in $animals)
-    <a href="/animal/$animal.getId()" class="thumbnail">
-      <h4>$animal.getName()</h4>
-      <h4>$animal.getSightings().size() Reported Sighting(s)</h4>
-      <p>Click for details</p>
-    </a>
-  #end
-#end
+<!-- index.vtl -->
