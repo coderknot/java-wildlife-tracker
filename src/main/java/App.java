@@ -24,6 +24,20 @@ public class App {
 
       model.put("sightings", Sighting.all());
       model.put("template_content", "templates/sightings.vtl");
+
+      List<Animal> animalsList = Animal.all();
+      model.put("animals", animalsList);
+
+      List<Animal> endangeredAnimalsList = EndangeredAnimal.all();
+      model.put("endangeredAnimals", endangeredAnimalsList);
+
+      String animalType = Animal.DATABASE_TYPE;
+      model.put("animalType", animalType);
+
+      String endangeredAnimalType = EndangeredAnimal.DATABASE_TYPE;
+      model.put("endangeredAnimalType", endangeredAnimalType);
+
+      model.put("template_form", "templates/sighting-form.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -55,7 +69,6 @@ public class App {
 
       String name = request.queryParams("add-animal-name");
       String type = request.queryParams("add-animal-type");
-      System.out.println(type);
 
       if(type.equals(Animal.DATABASE_TYPE)) {
         Animal newAnimal = new Animal(name);
@@ -79,6 +92,29 @@ public class App {
       }
 
       String url = String.format("/animals");
+      response.redirect(url);
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/sightings/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+
+      int animalId = 0;
+      String type = request.queryParams("add-sighting-type");
+
+      if(type.equals(Animal.DATABASE_TYPE)) {
+        animalId = Integer.parseInt(request.queryParams("add-sighting-non"));
+      } else if(type.equals(EndangeredAnimal.DATABASE_TYPE)) {
+        animalId = Integer.parseInt(request.queryParams("add-sighting-endangered"));
+      }
+
+      String location = request.queryParams("add-sighting-location");
+      String rangerName = request.queryParams("add-sighting-ranger");
+
+      Sighting sighting = new Sighting(animalId, location, rangerName);
+      sighting.save();
+
+      String url = String.format("/sightings");
       response.redirect(url);
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
