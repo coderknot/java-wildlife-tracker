@@ -39,6 +39,14 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
     return healthOptions;
   }
 
+  public static List<String> ageOptions() {
+    List<String> ageOptions = new ArrayList<String>();
+    ageOptions.add(EndangeredAnimal.AGE_ADULT);
+    ageOptions.add(EndangeredAnimal.AGE_YOUNG);
+    ageOptions.add(EndangeredAnimal.AGE_NEWBORN);
+    return ageOptions;
+  }
+
   public static List<Animal> all() {
     List<Animal> animalsList = new ArrayList<Animal>();
 

@@ -49,6 +49,15 @@ public class EndangeredAnimalTest {
   }
 
   @Test
+  public void ageOptions_returnsAgeConstants_true() {
+    List<String> ageOptionsList = EndangeredAnimal.ageOptions();
+
+    assertTrue(ageOptionsList.contains(EndangeredAnimal.AGE_ADULT));
+    assertTrue(ageOptionsList.contains(EndangeredAnimal.AGE_YOUNG));
+    assertTrue(ageOptionsList.contains(EndangeredAnimal.AGE_NEWBORN));
+  }
+
+  @Test
   public void all_returnsAllInstancesOfEndangeredAnimal_true() {
     EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     firstEndangeredAnimal.save();
