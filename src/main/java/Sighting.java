@@ -24,6 +24,15 @@ public class Sighting implements DatabaseManagement {
     return this.animalId;
   }
 
+  public String getAnimalName() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT name FROM animals where id = :id;";
+      return con.createQuery(sql)
+        .addParameter("id", this.getAnimalId())
+        .executeAndFetchFirst(String.class);
+    }
+  }
+
   public String getLocation() {
     return this.location;
   }

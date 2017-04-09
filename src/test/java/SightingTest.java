@@ -39,6 +39,15 @@ public class SightingTest {
   }
 
   @Test
+  public void getAnimalName_returnAnimalName_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    assertEquals(testAnimal.getName(), testSighting.getAnimalName());
+  }
+
+  @Test
   public void getLocation_sightingInstantiatesWithLocation_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
