@@ -1,3 +1,6 @@
+#add-animal-endangered {
+  display: none;
+}
 
 a, a:hover, a:visited {
   text-decoration: none;
