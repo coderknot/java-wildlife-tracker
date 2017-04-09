@@ -1,0 +1,43 @@
+<!-- sighting form -->
+
+#if($animals.size() > 0)
+  <form id="add-sighting-form" action="/sightings/new" method="post">
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <input type="radio" id="add-sighting-type-non" name="add-sighting-type" value="non-endangered" checked="checked">
+          Non-endangered
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" id="add-sighting-type-endangered" name="add-sighting-type" value="endangered">
+          Endangered
+        </label>
+      </div>
+      <div id="add-sighting-non">
+        <select class="form-control" name="add-sighting-non">
+          #foreach($animal in $animals)
+            <option value="$animal.getId()">$animal.getName() ($animalType)
+          #end
+        </select>
+      </div>
+      <div id="add-sighting-endangered">
+        <select class="form-control" name="add-sighting-endangered">
+          #foreach($endangeredAnimal in $endangeredAnimals)
+            <option value="$endangeredAnimal.getId()">$endangeredAnimal.getName() ($endangeredAnimalType)
+          #end
+        </select>
+      </div>
+      <input id="add-sighting-location" name="add-sighting-location" type="text" class="form-control" placeholder="Location (45.472428, -121.946466)">
+      <input id="add-sighting-ranger" name="add-sighting-ranger" type="text" class="form-control" placeholder="Ranger Name">
+    </div>
+    <button type="submit" class="btn btn-default">Record Sighting</button>
+  </form>
+#else
+  <p>
+    No animals records! Please visit the <a href="/animals">Animals page</a> to add an animal before recording the sighting.
+  </p>
+#end
+
+<!-- sighting form -->
