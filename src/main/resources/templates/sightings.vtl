@@ -1,5 +1,21 @@
 <!-- sightings.vtl -->
 
 <h3>Sightings</h3>
-
+#if($sightings.size() > 0)
+  #foreach($sighting in $sightings)
+    <div class="sighting">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">$sighting.getLocation() / $sighting.getAnimalName()</h2>
+        </div>
+        <div class="panel-body">
+          <p>Ranger: $sighting.getRangerName()</p>
+          <p>Timestamp: $sighting.getTimestamp()</p>
+        </div>
+      </div>
+    </div>
+  #end
+#else
+  <p>No sightings!</p>
+#end
 <!-- sightings.vtl -->
