@@ -9,6 +9,14 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
 
   public static final String DATABASE_TYPE = "endangered";
 
+  public static final String HEALTH_HEALTHY = "healthy";
+  public static final String HEALTH_OKAY = "okay";
+  public static final String HEALTH_ILL = "ill";
+
+  public static final String AGE_ADULT = "adult";
+  public static final String AGE_YOUNG = "young";
+  public static final String AGE_NEWBORN = "newborn";
+
   public EndangeredAnimal(String name, String health, String age) {
     super(name);
     this.health = health;
@@ -21,6 +29,14 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
 
   public String getAge() {
     return this.age;
+  }
+
+  public static List<String> healthOptions() {
+    List<String> healthOptions = new ArrayList<String>();
+    healthOptions.add(EndangeredAnimal.HEALTH_HEALTHY);
+    healthOptions.add(EndangeredAnimal.HEALTH_OKAY);
+    healthOptions.add(EndangeredAnimal.HEALTH_ILL);
+    return healthOptions;
   }
 
   public static List<Animal> all() {

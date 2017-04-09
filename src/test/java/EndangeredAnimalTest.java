@@ -40,6 +40,15 @@ public class EndangeredAnimalTest {
   }
 
   @Test
+  public void healthOptions_returnsHealthConstants_true() {
+    List<String> healthOptionsList = EndangeredAnimal.healthOptions();
+
+    assertTrue(healthOptionsList.contains(EndangeredAnimal.HEALTH_HEALTHY));
+    assertTrue(healthOptionsList.contains(EndangeredAnimal.HEALTH_OKAY));
+    assertTrue(healthOptionsList.contains(EndangeredAnimal.HEALTH_ILL));
+  }
+
+  @Test
   public void all_returnsAllInstancesOfEndangeredAnimal_true() {
     EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     firstEndangeredAnimal.save();
