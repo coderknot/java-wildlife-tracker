@@ -13,14 +13,73 @@ public class App {
 
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      String url = String.format("/sightings");
+      response.redirect(url);
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-      List<String> animalTypesList = new ArrayList<String>();
-      animalTypesList.add(Animal.DATABASE_TYPE);
-      animalTypesList.add(EndangeredAnimal.DATABASE_TYPE);
-
-      model.put("animalTypes", animalTypesList);
-      model.put("sightings", Sighting.all());
+    get("/sightings", (request, respone) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/index.vtl");
+
+      model.put("sightings", Sighting.all());
+      model.put("template_content", "templates/sightings.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/animals", (request, respone) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/index.vtl");
+
+      List<Animal> animalsList = Animal.all();
+      model.put("animals", animalsList);
+
+      List<Animal> endangeredAnimalsListTemp = EndangeredAnimal.all();
+      List<EndangeredAnimal> endangeredAnimalsList = new ArrayList<EndangeredAnimal>();
+      for(Animal animal : endangeredAnimalsListTemp) {
+        if(animal instanceof EndangeredAnimal) {
+          endangeredAnimalsList.add((EndangeredAnimal) animal);
+        }
+      }
+      model.put("endangeredAnimals", endangeredAnimalsList);
+      model.put("template_content", "templates/animals.vtl");
+
+      model.put("healthOptions", EndangeredAnimal.healthOptions());
+      model.put("ageOptions", EndangeredAnimal.ageOptions());
+      model.put("template_form", "templates/animal-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/animals/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+
+      String name = request.queryParams("add-animal-name");
+      String type = request.queryParams("add-animal-type");
+      System.out.println(type);
+
+      if(type.equals(Animal.DATABASE_TYPE)) {
+        Animal newAnimal = new Animal(name);
+        newAnimal.save();
+      } else if(type.equals(EndangeredAnimal.DATABASE_TYPE)) {
+        String health = "";
+        String age = "";
+
+        List<String> healthOptions = EndangeredAnimal.healthOptions();
+        if(healthOptions.contains(request.queryParams("add-animal-health"))) {
+          health = request.queryParams("add-animal-health");
+        }
+
+        List<String> ageOptions = EndangeredAnimal.ageOptions();
+        if(ageOptions.contains(request.queryParams("add-animal-age"))) {
+          age = request.queryParams("add-animal-age");
+        }
+
+        EndangeredAnimal newEndangeredAnimal = new EndangeredAnimal(name, health, age);
+        newEndangeredAnimal.save();
+      }
+
+      String url = String.format("/animals");
+      response.redirect(url);
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
