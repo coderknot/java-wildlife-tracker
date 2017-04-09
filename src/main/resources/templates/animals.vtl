@@ -1,0 +1,24 @@
+<!-- animals.vtl -->
+<h3>Animals</h3>
+#if($animals.size() > 0)
+  #foreach($animal in $animals)
+    <ul>
+      <li><a href="/animals/$animal.getId()">$animal.getName()</a></li>
+    </ul>
+  #end
+#else
+  <p>no animals</p>
+#end
+
+<h3>Endangered Animals</h3>
+#if($endangeredAnimals.size() > 0)
+  #foreach($endangeredAnimal in $endangeredAnimals)
+    <ul>
+      <li><a href="/animals/$endangeredAnimal.getId()">$endangeredAnimal.getName()</a></li>
+    </ul>
+  #end
+#else
+  <p>no endangered animals</p>
+#end
+
+<!-- animals.vtl -->
