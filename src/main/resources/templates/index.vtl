@@ -3,7 +3,6 @@
 <div class="index-header">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
@@ -13,28 +12,26 @@
         </button>
         <a class="navbar-brand" href="/">Wildlife-Tracker</a>
       </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="/sightings">Sightings<span class="sr-only">(current)</span></a></li>
           <li><a href="/animals">Animals</a></li>
         </ul>
-
-        <form id="add-animal-form" class="navbar-form navbar-right">
-          <div class="form-group">
-            <input id="add-animal-name" name="add-animal-name" type="text" class="form-control" placeholder="Animal Name">
-            <select id="add-animal-type" name="add-animal-type" type="text">
-              #foreach($animalType in $animalTypes)
-                <option value="$foreach.count">$animalType</option>
-              #end
-            </select>
-          </div>
-          <button type="submit" class="btn btn-default">Add Animal</button>
-        </form>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+      </div>
+    </div>
   </nav>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="well">
+      #parse( $template_content )
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="well">
+      #parse( $template_form )
+    </div>
+  </div>
 </div>
 
 <!-- index.vtl -->
