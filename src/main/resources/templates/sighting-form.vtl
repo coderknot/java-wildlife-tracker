@@ -24,8 +24,12 @@
       </div>
       <div id="add-sighting-endangered">
         <select class="form-control" name="add-sighting-endangered">
-          #foreach($endangeredAnimal in $endangeredAnimals)
-            <option value="$endangeredAnimal.getId()">$endangeredAnimal.getName() ($endangeredAnimalType)
+          #if($endangeredAnimals.size() > 0)
+            #foreach($endangeredAnimal in $endangeredAnimals)
+              <option value="$endangeredAnimal.getId()">$endangeredAnimal.getName() ($endangeredAnimalType)
+            #end
+          #else
+            <option value="" disabled selected style="display: none;">No Endangered Animal Records</option>
           #end
         </select>
       </div>

@@ -107,6 +107,24 @@ public class SightingTest {
   }
 
   @Test
+  public void find_idIsNotLessThan1_true() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+
+    String exceptionString = "";
+
+    try{
+      testSighting = Sighting.find(0);
+    } catch(IllegalArgumentException exception) {
+      exceptionString = exception.getMessage();
+    }
+
+    assertEquals("Not a valid Sighting ID.", exceptionString);
+  }
+
+  @Test
   public void equals_returnsTrueIfSightingsAreSame_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();

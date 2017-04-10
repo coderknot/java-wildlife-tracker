@@ -10,6 +10,8 @@ public class Sighting implements DatabaseManagement {
   private String rangerName;
   private Timestamp timestamp;
 
+  public static final int MIN_SIGHTING_ID = 1;
+
   public Sighting(int animalId, String location, String rangerName) {
     this.animalId = animalId;
     this.location = location;
@@ -55,7 +57,10 @@ public class Sighting implements DatabaseManagement {
     }
   }
 
-  public static Sighting find(int id) {
+  public static Sighting find(int id) throws IllegalArgumentException {
+    if(id < MIN_SIGHTING_ID) {
+      throw new IllegalArgumentException("Not a valid Sighting ID.");
+    }
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE id=:id;";
       Sighting sighting = con.createQuery(sql)
@@ -64,8 +69,6 @@ public class Sighting implements DatabaseManagement {
         .addParameter("id", id)
         .executeAndFetchFirst(Sighting.class);
       return sighting;
-    } catch (IndexOutOfBoundsException exception) {
-      return null;
     }
   }
 
